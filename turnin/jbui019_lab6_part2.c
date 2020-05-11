@@ -70,6 +70,7 @@ void tick(){
 			}
 			else{
 				state = stay;
+			}
 			break;
 		case stay:
 			if(A){
