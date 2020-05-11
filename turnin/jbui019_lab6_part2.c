@@ -51,6 +51,7 @@ void TimerSet(unsigned long M){
 	_avr_timer_cntcurr = _avr_timer_M;
 }
 unsigned char A;
+unsigned char CU;
 void tick(){
 	switch(state){
 		case start:
@@ -97,19 +98,37 @@ void tick(){
 	switch(state){
 		case start:
 			tmpB = 0x00;
+			CU = 1;
 			break;
+			
 		case sequence:
-			if(tmpB == 0 || tmpB == 4){
-				tmpB = 1;
+			if(CU){
+				if(tmpB == 0){
+					tmpB = 0x01;	
+				}
+				else if(tmpB == 1){
+					tmpB = 0x02;
+				}
+				else if(tmpB == 2){
+					tmpB = 0x04;	
+				}
+				CU = 0;
 			}
-			else if(tmpB == 1){
-				tmpB = 2;
-			}
-			else if(tmpB == 2){
-				tmpB = 4;	
+			else if(!CU){
+				if(tmpB == 0x04){
+					tmpB = 0x02;	
+				}
+				else if(tmpB == 0x02){
+					tmpB = 0x01;
+				}
+				else if(tmpB == 0x01){
+					tmpB = 0;	
+				}
+				CU = 1;
 			}
 			break;
 		case press:
+			PORTB = tmpB;
 			break;
 		case stay:
 			break;
