@@ -102,7 +102,7 @@ void tick(){
 			break;
 			
 		case sequence:
-			if(CU){
+			if(CU == 1){
 				if(tmpB == 0x01){
 					tmpB = 0x02;
 				}
@@ -111,7 +111,7 @@ void tick(){
 				}
 				CU = 0;
 			}
-			else if(!CU){
+			else if(CU == 0){
 				if(tmpB == 0x04){
 					tmpB = 0x02;	
 				}
