@@ -103,13 +103,10 @@ void tick(){
 			
 		case sequence:
 			if(CU){
-				if(tmpB == 0){
-					tmpB = 0x01;	
-				}
-				else if(tmpB == 1){
+				if(tmpB == 0x01){
 					tmpB = 0x02;
 				}
-				else if(tmpB == 2){
+				else if(tmpB == 0x02){
 					tmpB = 0x04;	
 				}
 				CU = 0;
@@ -120,9 +117,6 @@ void tick(){
 				}
 				else if(tmpB == 0x02){
 					tmpB = 0x01;
-				}
-				else if(tmpB == 0x01){
-					tmpB = 0;	
 				}
 				CU = 1;
 			}
