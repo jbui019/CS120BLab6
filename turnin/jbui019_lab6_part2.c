@@ -89,24 +89,24 @@ void tick(){
 			CU = 0;
 			break;
 	
-		case wait:
-			if((~PINA & 0x01) == 0x01){
-				state = wait; 
-				break;
+		case waitP:
+			if((~PINA & 0x01) == 0x00){
+				state = waitR;	
 			}
 			else{
-				state = restart; 
-				break;
+				state = waitP;
 			}
+		case waitR:
+			if((~PINA & 0x01) == 0x01){
+				state = restart;
+			}
+			else{
+				state = waitR;	
+			}
+			break;
 		case restart:
-			if((~PINA & 0x01) == 0x01){
-				state = d1; 
-				break;
-			}
-			else{
-				state = restart; 
-				break;
-			}
+			state = start;
+			break;
 			
 		default:
 			break;
@@ -126,8 +126,12 @@ void tick(){
 			PORTB = 0x04;
 			break;
 			
-		case wait:
+		case waitP:
 			break;
+			
+		case waitR:
+			break;
+			
 		case restart:
 			break;
 			
