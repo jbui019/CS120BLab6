@@ -146,7 +146,6 @@ int main(void){
 	TimerOn();
     /* Insert your solution below */
     while (1){
-	A = ~PINA & 0x01;
 	tick();	
 	while(!TimerFlag){TimerFlag = 0;}
     }
