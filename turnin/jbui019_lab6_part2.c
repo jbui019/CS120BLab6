@@ -12,10 +12,7 @@
 #include "simAVRHeader.h"
 #endif
 
-enum States{start, sequence, press, stay, pressR }state;
 volatile unsigned char TimerFlag = 0;
-unsigned char A;
-unsigned char tmpB = 0x00;
 unsigned long _avr_timer_M = 1;
 unsigned long _avr_timer_cntcurr = 0;
 
@@ -50,90 +47,93 @@ void TimerSet(unsigned long M){
 	_avr_timer_M = M;
 	_avr_timer_cntcurr = _avr_timer_M;
 }
-unsigned char A;
+
+enum States{start, d1, d2, d3, wait, restart }state;
 unsigned char CU;
 void tick(){
 	switch(state){
 		case start:
-			state = sequence;
+			PORTB = 0x00;
+			state = d1;
 			break;
-		case sequence:
-			if(A) {
-				state = press;
+		
+		case d1:
+			if((~PINA & 0x01) == 0x01) {
+				state = wait;
 			}
 			else{
-				state = sequence; 
+				state = d2;
 			}
+			CU = 1;
 			break;
-		case press:
-			if(A){ 
-				state = press;
+		case d2:
+			if((~PINA & 0x01) == 0x01) {
+				state = wait;
 			}
 			else{
-				state = stay;
+				if(CU == 0){
+					state = d1;	
+				}
+				else if(CU == 1){
+					state = d3;
+				}
 			}
 			break;
-		case stay:
-			if(A){
-				state = pressR;
+		case d3:
+			if((~PINA & 0x01) == 0x01) {
+				state = wait;
 			}
 			else{
-				state = stay;	
+				state = d2; 
 			}
+			CU = 0;
 			break;
 	
-		case pressR:
-			if(A){
-				state = pressR;
+		case wait:
+			if((~PINA & 0x01) == 0x01){
+				state = wait; 
+				break;
 			}
 			else{
-				state = start;	
+				state = restart; 
+				break;
 			}
-			break;
+		case restart:
+			if((~PINA & 0x01) == 0x01){
+				state = d1; 
+				break;
+			}
+			else{
+				state = restart; 
+				break;
+			}
+			
 		default:
-			state = start;
 			break;
 	}
 	
 	switch(state){
 		case start:
-			tmpB = 0x01;
-			CU = 1;
 			break;
 			
-		case sequence:
-			if(CU == 1){
-				if(tmpB == 0x01){
-					tmpB = 0x02;
-				}
-				else if(tmpB == 0x02){
-					tmpB = 0x04;	
-				}
-				CU = 0;
-			}
-			else if(CU == 0){
-				if(tmpB == 0x04){
-					tmpB = 0x02;	
-				}
-				else if(tmpB == 0x02){
-					tmpB = 0x01;
-				}
-				CU = 1;
-			}
+		case d1:
+			PORTB = 0x01;
 			break;
-		case press:
-			PORTB = tmpB;
+		case d2:
+			PORTB = 0x02;
 			break;
-		case stay:
+		case d3:
+			PORTB = 0x04;
 			break;
 			
-		case pressR:
+		case wait:
+			break;
+		case restart:
 			break;
 			
 		default:
 			break;
 	}
-	PORTB = tmpB;
 		
 }
 	
