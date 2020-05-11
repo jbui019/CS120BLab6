@@ -50,7 +50,7 @@ void TimerSet(unsigned long M){
 	_avr_timer_M = M;
 	_avr_timer_cntcurr = _avr_timer_M;
 }
-unsigned char A = ~PINA & 0x01;
+unsigned char A;
 void tick(){
 	switch(state){
 		case start:
