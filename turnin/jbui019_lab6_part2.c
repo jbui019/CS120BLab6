@@ -48,7 +48,7 @@ void TimerSet(unsigned long M){
 	_avr_timer_cntcurr = _avr_timer_M;
 }
 
-enum States{start, d1, d2, d3, wait, restart }state;
+enum States{start, d1, d2, d3, waitP,waitR, restart }state;
 unsigned char CU;
 void tick(){
 	switch(state){
