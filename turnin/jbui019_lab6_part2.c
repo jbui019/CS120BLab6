@@ -97,7 +97,7 @@ void tick(){
 	
 	switch(state){
 		case start:
-			tmpB = 0x00;
+			tmpB = 0x01;
 			CU = 1;
 			break;
 			
