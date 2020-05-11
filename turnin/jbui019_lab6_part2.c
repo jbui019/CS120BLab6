@@ -38,7 +38,7 @@ void TimerISR(){
 	TimerFlag = 1;	
 }
 
-void ISR(TIMER1_COMPA_vect){
+ISR(TIMER1_COMPA_vect){
 	_avr_timer_cntcurr--;
 	if(_avr_timer_cntcurr == 0){
 		TimerISR();
@@ -117,11 +117,12 @@ void tick(){
 			
 		default:
 			break;
-		}
-		PORTB = tmpB;
+	}
+	PORTB = tmpB;
 		
 }
-int main(void) {
+	
+int main(void){
     /* Insert DDR and PORT initializations */
 	DDRA = 0x00; PORTA = 0xFF;
 	DDRB = 0xFF; PORTB = 0x00;
@@ -136,5 +137,4 @@ int main(void) {
 	TimerFlag = 0;	
 	}
     }
-    return 1;
 }
