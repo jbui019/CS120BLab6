@@ -59,7 +59,7 @@ void tick(){
 		
 		case d1:
 			if((~PINA & 0x01) == 0x01) {
-				state = wait;
+				state = waitP;
 			}
 			else{
 				state = d2;
@@ -68,7 +68,7 @@ void tick(){
 			break;
 		case d2:
 			if((~PINA & 0x01) == 0x01) {
-				state = wait;
+				state = waitP;
 			}
 			else{
 				if(CU == 0){
@@ -81,7 +81,7 @@ void tick(){
 			break;
 		case d3:
 			if((~PINA & 0x01) == 0x01) {
-				state = wait;
+				state = waitP;
 			}
 			else{
 				state = d2; 
