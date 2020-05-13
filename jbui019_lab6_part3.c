@@ -52,6 +52,7 @@ void TimerSet(unsigned long M){
 }
 
 unsigned char counter = 0;
+unsigned char overallcounter = 0;
 
 void tick(){
 	unsigned char PB = PORTB;
@@ -170,7 +171,11 @@ void tick(){
 		break;
 	case A0remain:
 		counter++;
-		if(counter == 100 && PB < 9){
+		overallcounter++;
+		if(overallcounter >= 1500 ){
+			PORTB = 0x09;
+		}
+		else if(counter == 100 && PB < 9){
 			PORTB = PB+1;
 			counter = 0;
 		}
