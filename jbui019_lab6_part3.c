@@ -164,6 +164,9 @@ void tick(){
 		if(PB < 9){
 			PORTB = PB + 1;
 		}
+		else if(PB == 9){
+			PORTB = 0x09;
+		}
 		break;
 	case A0remain:
 		counter++;
@@ -179,6 +182,9 @@ void tick(){
 	case A1press:
 		if(PB > 0){
 			PORTB = PB -1;
+		}
+		else if(PB == 0){
+			PORTB = 0x00;	
 		}
 		break;
 	case A1remain:
